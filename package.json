@@ -1,0 +1,25 @@
+{
+  "name": "kdabra",
+  "version": "1.0.0",
+  "description": "Project for KDABRA API",
+  "main": "server.js",
+  "scripts": {
+    "test": "test",
+    "dev": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "\u0016https://github.com/FedeAPerez/kdabra"
+  },
+  "author": "Doers Argentina",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "express": "^4.16.2",
+    "express-validator": "^4.3.0",
+    "mongodb": "^2.2.33"
+  },
+  "devDependencies": {
+    "nodemon": "^1.12.1"
+  }
+}
