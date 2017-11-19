@@ -18,8 +18,10 @@ MongoClient.connect(db.url, (err, database) => {
 
   require('./app/routes')(app, database);
 
-  app.listen(port, () => {
-    console.log('Escuchando en puerto ' + port);
-  });               
+  app.listen((process.env.PORT || 5000), () => {
+  	
+    console.log('Se está ejecutando en el puerto: ' + port);
+  });     
+          
   
 })
