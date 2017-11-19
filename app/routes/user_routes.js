@@ -7,12 +7,15 @@ module.exports = function(app, db) {
 
 	app.get('/users', (req, res) => {
     	// Sends all the users
-    	res.send('Users son')
+    	userDao.getUsers(db, function(result){
+    		res.status(200).send({users : result});
+    		return;
+    	});
   	});
 
 	app.post('/users', [
 			check('username')
-	    	.isAlpha().withMessage('username must be alphanumeric'),
+	    	.isAlphanumeric().withMessage('username must be alphanumeric'),
 	    	check('email')
 	    	.isEmail().withMessage('email must be a valid email address')
 		],
