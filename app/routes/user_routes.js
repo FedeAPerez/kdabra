@@ -1,5 +1,7 @@
 // routes/user_routes.js
 var userDao  = require('../daos/user_dao');
+const { check, validationResult } = require('express-validator/check');
+const { matchedData, sanitize } = require('express-validator/filter');
 
 module.exports = function(app, db) {
 
@@ -8,34 +10,35 @@ module.exports = function(app, db) {
     	res.send('Users son')
   	});
 
-	app.post('/users', (req, res) => {
-    	// Saves a new user
-    	req.checkBody('username', 'username required').isAlpha();
-		req.checkBody('password', 'password must be between 5 and 18 chars.').isLength({ min: 5, max: 18 })
+	app.post('/users', [
+			check('username')
+	    	.isAlpha().withMessage('username must be alphanumeric'),
+	    	check('email')
+	    	.isEmail().withMessage('email must be a valid email address')
+		],
 
-	    //Trim and escape the name field. 
-	    req.sanitize('password').escape();
-	    req.sanitize('password').trim();
+		(req, res) => {
+	    	// Saves a new user
 
-    	var errors = req.validationErrors();
-    	var user = {
-    		username : req.body.username,
-    		password : req.body.password
-    	}
-		if (errors) {
-		    // Render the form using error information
-		    res.send({operation: 'Create User', errors: errors});
-    		return;
-    		
-		}
-		else {
-		   // There are no errors so perform action with valid data (e.g. save record).
-	       	userDao.saveUser(db, user, function(userSaved, result){
-	    		res.send({result : result, item : userSaved});
+	    	var errors = validationResult(req);
+
+			if (!errors.isEmpty()) {
+			    // Render the form using error information
+			    res.status(422).send({ operation: 'Create User', errors: errors.mapped() });
 	    		return;
-	    	});
-		}
-
-
-  	});
+	    		
+			}
+			else {
+			    // There are no errors so perform action with valid data (e.g. save record).
+			   	var user = {
+	    			username : req.body.username,
+	    			password : req.body.password,
+	    			email 	 : req.body.email
+	    		}
+		       	userDao.saveUser(db, user, function(userSaved, result){
+		    		res.status(200).send({result : result, item : userSaved});
+		    		return;
+		    	});
+			}
+  		});
 };
