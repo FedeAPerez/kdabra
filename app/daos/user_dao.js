@@ -17,11 +17,28 @@ module.exports = {
 	: function(db, callback) {
 		db.collection('Users').find().toArray(function(err, result) {
 			 if (err) { 
-		        console.error('An error has occurred saving user'); 
+		        console.error('An error has occurred getting user'); 
 		        return callback(false);
 		      } else {
 		        return callback(result);
 		      }
+		});
+	},
+
+	getUserByUsername
+	: function(db, username, callback) {
+		db.collection('Users').findOne({username : username}, function(err, result){
+			if(err) {
+				console.error('An error has occurred getting user by username'); 
+			} else {
+				if(result)
+				{
+					return callback(true, result);
+				}
+				else {
+					return callback(false, result);
+				}
+			}
 		});
 	}					
 

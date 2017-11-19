@@ -38,10 +38,19 @@ module.exports = function(app, db) {
 	    			password : req.body.password,
 	    			email 	 : req.body.email
 	    		}
-		       	userDao.saveUser(db, user, function(userSaved, result){
-		    		res.status(200).send({result : result, item : userSaved});
-		    		return;
-		    	});
+	    		userDao.getUserByUsername(db, user.username, function(flag, resultFind){
+	    			if(!flag) {
+	    				userDao.saveUser(db, user, function(userSaved, result){
+			    			res.status(200).send({result : result, item : userSaved});
+			    			return;
+			    		});
+	    			}
+	    			else {
+	    				res.status(418).send({ operation : 'Create User', errors : 'username is not available'});
+	    			}
+
+	    		});
+
 			}
   		});
 };
