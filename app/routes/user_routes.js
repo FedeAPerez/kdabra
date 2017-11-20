@@ -4,12 +4,14 @@ const { check, validationResult } = require('express-validator/check');
 const { matchedData, sanitize } = require('express-validator/filter');
 
 module.exports = function(app, db) {
-
+	/*
+	*	kinda routes kinda controller
+	*/
 	app.get('/users', 
 		(req, res) => {
 	    	// Sends all the users
 	    	userDao.getUsers(db, function(result){
-	    		res.status(200).send({users : result});
+	    		res.status(200).send({ operation : 'Get Users', result : result });
 	    		return;
 	    	});
   		}
