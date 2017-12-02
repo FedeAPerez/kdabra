@@ -54,11 +54,12 @@ module.exports = function(app, db) {
 			else {
 			    // There are no validation errors
 			   	var user = {
-	    			username 	 : req.body.username,
-	    			password 	 : req.body.password,
-	    			email 	 	 : req.body.email,
-	    			app_secret 	 : req.body.app_secret,
-	    			access_token : req.body.access_token
+	    			username 	 	 : req.body.username,
+	    			password 	 	 : req.body.password,
+	    			email 	 	 	 : req.body.email,
+	    			app_secret 	 	 : req.body.app_secret,
+	    			access_token 	 : req.body.access_token,
+	    			validation_token : req.body.validation_token
 	    		}
 	    		userDao.getUserByUsername(db, user.username, function(flag, resultFind){
 	    			if(!flag) {
