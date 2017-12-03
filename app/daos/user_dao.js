@@ -40,6 +40,22 @@ module.exports = {
 				}
 			}
 		});
-	}					
+	},
 
+	getUserByPageId					
+	: function(db, page_id, callback) {
+		db.collection('Users').findOne({page_id : page_id}, function(err, result){
+			if(err) {
+				console.error('An error has occurred getting user by page_id'); 
+			} else {
+				if(result)
+				{
+					return callback(true, result);
+				}
+				else {
+					return callback(false, result);
+				}
+			}
+		});
+	},
 }

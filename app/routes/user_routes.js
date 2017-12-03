@@ -25,10 +25,27 @@ module.exports = function(app, db) {
 	    	// Sends user by username
 	    	userDao.getUserByUsername(db, req.params.username, function(flag, result){
     			if(flag) {
-    				res.status(200).send({ operation : 'Get User', result : result });
+    				res.status(200).send({ operation : 'Get User by username', result : result });
     			}
     			else {
-    				res.status(418).send({ operation : 'Get User', errors : 'username is not in our db'});
+    				res.status(418).send({ operation : 'Get User by username', errors : 'username is not in our db'});
+    			}
+	    	});
+  		}
+  	);
+
+	app.get('/users/:page_id', [
+			check('page_id')
+			.isAlphanumeric().withMessage('page_id must be alphanumeric')
+		],
+		(req, res) => {
+	    	// Sends user by username
+	    	userDao.getUserByPageId(db, req.params.page_id, function(flag, result){
+    			if(flag) {
+    				res.status(200).send({ operation : 'Get User by page_id', result : result });
+    			}
+    			else {
+    				res.status(418).send({ operation : 'Get User by page_id', errors : 'page_id is not in our db'});
     			}
 	    	});
   		}
