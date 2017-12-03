@@ -34,7 +34,7 @@ module.exports = function(app, db) {
   		}
   	);
 
-	app.get('/users/:page_id', [
+	app.get('/users/pageid/:page_id', [
 			check('page_id')
 			.isAlphanumeric().withMessage('page_id must be alphanumeric')
 		],
