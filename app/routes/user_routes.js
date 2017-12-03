@@ -36,7 +36,7 @@ module.exports = function(app, db) {
 
 	app.get('/users/pageid/:page_id', [
 			check('page_id')
-			.isAlphanumeric().withMessage('page_id must be alphanumeric')
+			.isNumeric().withMessage('page_id must be numeric')
 		],
 		(req, res) => {
 	    	// Sends user by username
