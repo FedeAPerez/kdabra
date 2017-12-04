@@ -76,7 +76,8 @@ module.exports = function(app, db) {
 	    			email 	 	 	 : req.body.email,
 	    			app_secret 	 	 : req.body.app_secret,
 	    			access_token 	 : req.body.access_token,
-	    			validation_token : req.body.validation_token
+	    			validation_token : req.body.validation_token,
+	    			page_id			 : req.body.page_id
 	    		}
 	    		userDao.getUserByUsername(db, user.username, function(flag, resultFind){
 	    			if(!flag) {
