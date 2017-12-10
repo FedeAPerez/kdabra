@@ -17,13 +17,7 @@ module.exports = function(app, db) {
   		}
   	);
 
-  	app.post('/parameters', [
-			check('page_id')
-	    	.isNumeric().withMessage('page_id must be numeric'),
-	    	check('value')
-	    	.isAlphanumeric().withMessage('value must be alphanumeric')
-		],
-
+  	app.post('/parameters',
 		(req, res) => {
 	    	// Saves a new Parameter
 
