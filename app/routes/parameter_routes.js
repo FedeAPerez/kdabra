@@ -36,7 +36,7 @@ module.exports = function(app, db) {
 	    			value 	 	 	 : req.body.value
 	    		}
 
-				parameterDao.saveUser(db, parameter, function(parameterSaved, result){
+				parameterDao.saveParameter(db, parameter, function(parameterSaved, result){
 	    			res.status(200).send( {operation : 'Create Parameter', result : result, item : parameterSaved});
 	    			return;
 	    		});
