@@ -34,7 +34,7 @@ module.exports = function(app, db) {
   		}
   	);
 
-	app.get('/users/pageid/:page_id', [
+	app.get('/users/page_id/:page_id', [
 			check('page_id')
 			.isNumeric().withMessage('page_id must be numeric')
 		],
