@@ -47,9 +47,9 @@ module.exports = function(app, db) {
     			parameter_id	 : req.params.parameter_id
     		}
 
-			parameterDao.getParameterByPageId(db, parameter, function(parameterRequested, result){
+			parameterDao.getParameterByPageId(db, parameter, function(flag, result){
 				if(flag) {
-    				res.status(200).send({ operation : 'Get Parameter by Page_Id', result : result, item : parameterRequested });
+    				res.status(200).send({ operation : 'Get Parameter by Page_Id', result : result });
     			}
     			else {
     				res.status(418).send({ operation : 'Get Parameter by Page_Id', errors : 'parameter ' + parameter.parameter_id + ' is not in our db'});
