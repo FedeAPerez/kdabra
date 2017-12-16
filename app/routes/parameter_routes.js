@@ -21,7 +21,12 @@ module.exports = function(app, db) {
   	);
 	
 	// Saves a new Parameter
-  	app.post('/parameters',
+  	app.post('/parameters',[
+  			check('page_id')
+			.isAlphanumeric().withMessage('page_id must be alphanumeric'),
+			check('parameter_id')
+			.isEmpty().withMessage('parameter_id must not be empty')
+  		],
 		(req, res) => {
 
 		   	var parameter = {

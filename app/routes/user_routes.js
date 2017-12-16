@@ -11,13 +11,13 @@ module.exports = function(app, db) {
 		(req, res) => {
 	    	// Sends all the users
 	    	userDao.getUsers(db, function(result){
-	    		res.status(200).send({ operation : 'Get Users', result : result });
+	    		res.status(200).send({ operation : 'Users Get All OK', result : result });
 	    		return;
 	    	});
   		}
   	);
 
-	app.get('/users/:username', [
+	app.get('/users/username/:username', [
 			check('username')
 			.isAlphanumeric().withMessage('username must be alphanumeric')
 		],
@@ -25,10 +25,10 @@ module.exports = function(app, db) {
 	    	// Sends user by username
 	    	userDao.getUserByUsername(db, req.params.username, function(flag, result){
     			if(flag) {
-    				res.status(200).send({ operation : 'Get User by username', result : result });
+    				res.status(200).send({ operation : 'Users Get by Username OK', result : result });
     			}
     			else {
-    				res.status(418).send({ operation : 'Get User by username', errors : 'username is not in our db'});
+    				res.status(418).send({ operation : 'Users Get by Username Fail', errors : 'username is not in our db'});
     			}
 	    	});
   		}
@@ -39,15 +39,25 @@ module.exports = function(app, db) {
 			.isNumeric().withMessage('page_id must be numeric')
 		],
 		(req, res) => {
-	    	// Sends user by username
-	    	userDao.getUserByPageId(db, req.params.page_id, function(flag, result){
-    			if(flag) {
-    				res.status(200).send({ operation : 'Get User by page_id', result : result });
-    			}
-    			else {
-    				res.status(418).send({ operation : 'Get User by page_id', errors : 'page_id is not in our db'});
-    			}
-	    	});
+	    	// Sends user by page_id
+	    	
+	    	var errors = validationResult(req);
+
+	    	if (!errors.isEmpty()) {
+			    res.status(422).send({ operation: 'Users Get by Page_Id Errors', errors: errors.mapped() });
+	    		return;
+	    		
+			}
+			else {
+		    	userDao.getUserByPageId(db, req.params.page_id, function(flag, result){
+	    			if(flag) {
+	    				res.status(200).send({ operation : 'Users Get by Page_Id OK', result : result });
+	    			}
+	    			else {
+	    				res.status(418).send({ operation : 'Users Get by Page_Id Fail', errors : 'page_id is not in our db'});
+	    			}
+		    	});
+		    }
   		}
   	);
 
@@ -64,7 +74,7 @@ module.exports = function(app, db) {
 	    	var errors = validationResult(req);
 
 			if (!errors.isEmpty()) {
-			    res.status(422).send({ operation: 'Create User', errors: errors.mapped() });
+			    res.status(422).send({ operation: 'Users Create Errors', errors: errors.mapped() });
 	    		return;
 	    		
 			}
@@ -82,12 +92,12 @@ module.exports = function(app, db) {
 	    		userDao.getUserByUsername(db, user.username, function(flag, resultFind){
 	    			if(!flag) {
 	    				userDao.saveUser(db, user, function(userSaved, result){
-			    			res.status(200).send( {operation : 'Create User', result : result, item : userSaved});
+			    			res.status(200).send( {operation : 'Users Create Fail', result : result, item : userSaved});
 			    			return;
 			    		});
 	    			}
 	    			else {
-	    				res.status(418).send({ operation : 'Create User', errors : 'username is not available'});
+	    				res.status(418).send({ operation : 'Users Create Fail', errors : 'username is not available'});
 	    			}
 
 	    		});
