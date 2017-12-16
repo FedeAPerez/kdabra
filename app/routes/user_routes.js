@@ -102,7 +102,7 @@ module.exports = function(app, db) {
 	    		userDao.getUserByUsername(db, user.username, function(flag, resultFind){
 	    			if(!flag) {
 	    				userDao.saveUser(db, user, function(userSaved, result){
-			    			res.status(200).send( {operation : 'Users Create Fail', result : result, item : userSaved});
+			    			res.status(200).send( {operation : 'Users Create OK', result : result, item : userSaved});
 			    			return;
 			    		});
 	    			}
