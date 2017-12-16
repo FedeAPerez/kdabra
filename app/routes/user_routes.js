@@ -23,14 +23,24 @@ module.exports = function(app, db) {
 		],
 		(req, res) => {
 	    	// Sends user by username
-	    	userDao.getUserByUsername(db, req.params.username, function(flag, result){
-    			if(flag) {
-    				res.status(200).send({ operation : 'Users Get by Username OK', result : result });
-    			}
-    			else {
-    				res.status(418).send({ operation : 'Users Get by Username Fail', errors : 'username is not in our db'});
-    			}
-	    	});
+
+	    	var errors = validationResult(req);
+
+	    	if (!errors.isEmpty()) {
+			    res.status(422).send({ operation: 'Users Get by Username Errors', errors: errors.mapped() });
+	    		return;
+	    		
+			}
+			else {
+		    	userDao.getUserByUsername(db, req.params.username, function(flag, result){
+	    			if(flag) {
+	    				res.status(200).send({ operation : 'Users Get by Username OK', result : result });
+	    			}
+	    			else {
+	    				res.status(418).send({ operation : 'Users Get by Username Fail', errors : 'username is not in our db'});
+	    			}
+		    	});
+		    }
   		}
   	);
 
@@ -40,7 +50,7 @@ module.exports = function(app, db) {
 		],
 		(req, res) => {
 	    	// Sends user by page_id
-	    	
+
 	    	var errors = validationResult(req);
 
 	    	if (!errors.isEmpty()) {
