@@ -31,7 +31,7 @@ module.exports = function(app, db) {
 			}
 
 			parameterDao.saveParameter(db, parameter, function(parameterSaved, result){
-				res.status(200).send( {operation : 'Create Parameter', result : result, item : parameterSaved});
+				res.status(200).send({ operation : 'Create Parameter', result : result, item : parameterSaved });
 				return;
 			});
   		}
@@ -47,9 +47,13 @@ module.exports = function(app, db) {
     			parameter_id	 : req.params.parameter_id
     		}
 
-			parameterDao.getParameterByPageId(db, parameter, function(parameterSaved, result){
-    			res.status(200).send( {operation : 'Create Parameter', result : result, item : parameterSaved});
-    			return;
+			parameterDao.getParameterByPageId(db, parameter, function(parameterRequested, result){
+				if(flag) {
+    				res.status(200).send({ operation : 'Get Parameter by Page_Id', result : result, item : parameterRequested });
+    			}
+    			else {
+    				res.status(418).send({ operation : 'Get Parameter by Page_Id', errors : 'parameter ' + parameter.parameter_id + ' is not in our db'});
+    			}
     		});
   		}
   	);

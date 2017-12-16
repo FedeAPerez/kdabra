@@ -27,7 +27,7 @@ module.exports = {
 
 	getParameterByPageId
 	: function(db, partialParameter, callback) {
-		db.collection('Parameters').findOne({page_id : partialParameter.page_id, parameter_id : partialParameter.parameter_id}, function(){
+		db.collection('Parameters').findOne({page_id : partialParameter.page_id, parameter_id : partialParameter.parameter_id}, function(err, result){
 			if(err) {
 				console.error('An error has occurred getting parameter by page_id and parameter_id'); 
 			} else {
