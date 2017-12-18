@@ -7,9 +7,10 @@ module.exports = function(app, db) {
 	/*
 	*	kinda routes kinda controller
 	*/
+
+	// Sends all the users
 	app.get('/users', 
 		(req, res) => {
-	    	// Sends all the users
 	    	userDao.getUsers(db, function(result){
 	    		res.status(200).send({ operation : 'Users Get All OK', result : result });
 	    		return;
@@ -17,13 +18,12 @@ module.exports = function(app, db) {
   		}
   	);
 
+	// Sends user by username
 	app.get('/users/username/:username', [
 			check('username')
 			.isAlphanumeric().withMessage('username must be alphanumeric')
 		],
 		(req, res) => {
-	    	// Sends user by username
-
 	    	var errors = validationResult(req);
 
 	    	if (!errors.isEmpty()) {
@@ -44,19 +44,16 @@ module.exports = function(app, db) {
   		}
   	);
 
+	// Sends user by page_id
 	app.get('/users/page_id/:page_id', [
 			check('page_id')
 			.isNumeric().withMessage('page_id must be numeric')
 		],
 		(req, res) => {
-	    	// Sends user by page_id
-
 	    	var errors = validationResult(req);
 
 	    	if (!errors.isEmpty()) {
 			    res.status(422).send({ operation: 'Users Get by Page_Id Errors', errors: errors.mapped() });
-	    		return;
-	    		
 			}
 			else {
 		    	userDao.getUserByPageId(db, req.params.page_id, function(flag, result){
@@ -85,8 +82,6 @@ module.exports = function(app, db) {
 
 			if (!errors.isEmpty()) {
 			    res.status(422).send({ operation: 'Users Create Errors', errors: errors.mapped() });
-	    		return;
-	    		
 			}
 			else {
 			    // There are no validation errors
@@ -103,7 +98,6 @@ module.exports = function(app, db) {
 	    			if(!flag) {
 	    				userDao.saveUser(db, user, function(userSaved, result){
 			    			res.status(200).send( {operation : 'Users Create OK', result : result, item : userSaved});
-			    			return;
 			    		});
 	    			}
 	    			else {
