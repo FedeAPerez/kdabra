@@ -57,7 +57,14 @@ module.exports = function(app, db) {
     				res.status(200).send({ operation : 'Parameters Get by Page_Id OK', result : result });
     			}
     			else {
-    				res.status(418).send({ operation : 'Parameters Get by Page_Id Fail', errors : 'parameter ' + parameter.parameter_id + ' is not in our db'});
+    				parameterDao.getDefaultParameter(db, parameter, function(flag, result){
+    					if(flag) {
+		    				res.status(200).send({ operation : 'Parameters Get by Parameter_Id OK', result : result });
+		    			}
+		    			else {
+		    				res.status(418).send({ operation : 'Parameters Get by Page_Id Fail', errors : 'parameter ' + parameter.parameter_id + ' is not in our db'});
+		    			}
+    				});
     			}
     		});
   		}

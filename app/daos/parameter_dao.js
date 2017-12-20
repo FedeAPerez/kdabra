@@ -42,4 +42,21 @@ module.exports = {
 		});
 	},	
 
+	getDefaultParameter
+	: function(db, partialParameter, callback) {
+		db.collection('Parameters').findOne({ parameter_id : partialParameter.parameter_id}, function(err, result){
+			if(err) {
+				console.error('An error has occurred getting parameter by parameter_id'); 
+			} else {
+				if(result)
+				{
+					return callback(true, result);
+				}
+				else {
+					return callback(false, result);
+				}
+			}
+		});
+	},
+
 }
