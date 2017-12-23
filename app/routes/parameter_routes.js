@@ -32,7 +32,8 @@ module.exports = function(app, db) {
 		   	var parameter = {
 				page_id 	 	 : req.body.page_id,
 				parameter_id	 : req.body.parameter_id,
-				value 	 	 	 : req.body.value
+				value 	 	 	 : req.body.value,
+				type			 : req.body.type
 			}
 
 			parameterDao.saveParameter(db, parameter, function(parameterSaved, result){
