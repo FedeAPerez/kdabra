@@ -28,13 +28,27 @@ module.exports = function(app, db) {
 			.isEmpty().withMessage('parameter_id must not be empty')
   		],
 		(req, res) => {
-
-		   	var parameter = {
-				page_id 	 	 : req.body.page_id,
-				parameter_id	 : req.body.parameter_id,
-				value 	 	 	 : req.body.value,
-				type			 : req.body.type
+			switch(req.body.type)
+			{
+				case "number":
+					var parameter = {
+						page_id 	 	 : req.body.page_id,
+						parameter_id	 : req.body.parameter_id,
+						value 	 	 	 : req.body.value,
+						type			 : req.body.type,
+						number			 : req.body.number
+					}
+				;break;
+				default:
+					var parameter = {
+						page_id 	 	 : req.body.page_id,
+						parameter_id	 : req.body.parameter_id,
+						value 	 	 	 : req.body.value,
+						type			 : req.body.type
+					}
+				;break;
 			}
+
 
 			parameterDao.saveParameter(db, parameter, function(parameterSaved, result){
 				res.status(200).send({ operation : 'Parameters Create OK', result : result, item : parameterSaved });
