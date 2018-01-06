@@ -67,7 +67,7 @@ module.exports = function(app, db) {
     			parameter_id	 : req.params.parameter_id
     		}
 
-			parameterDao.getParameterByPageId(db, parameter, function(flag, result){
+			parameterDao.getParameterByPageIdAndParameterId(db, parameter, function(flag, result){
 				if(flag) {
     				res.status(200).send({ operation : 'Parameters Get by Page_Id OK', result : result });
     			}
@@ -82,6 +82,22 @@ module.exports = function(app, db) {
     				});
     			}
     		});
+  		}
+  	);
+
+  	// Gets all the parameters by page id
+	app.get('/parameters/page_id/:page_id/', 
+		(req, res) => {
+
+			// There are no validation errors
+		   	var parameter = {
+    			page_id 	 	 : req.params.page_id
+    		}
+
+	    	parameterDao.getParameterByPageId(db, function(result){
+	    		res.status(200).send({ operation : 'Prameters Get All OK', result : result });
+	    		return;
+	    	});
   		}
   	);
 

@@ -25,7 +25,7 @@ module.exports = {
 		});
 	},			
 
-	getParameterByPageId
+	getParameterByPageIdAndParameterId
 	: function(db, partialParameter, callback) {
 		db.collection('Parameters').findOne({page_id : partialParameter.page_id, parameter_id : partialParameter.parameter_id}, function(err, result){
 			if(err) {
